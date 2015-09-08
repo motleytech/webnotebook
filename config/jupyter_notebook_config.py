@@ -1,10 +1,19 @@
 # Configuration file for jupyter-notebook.
 
 import os
-import wnbsecrets
+import sys
+
+
+
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(THIS_DIR, "../"))
+
+modPath = os.path.abspath(os.path.join(ROOT_DIR, "config"))
+sys.path.append(modPath)
+import pwhash
+sys.path.pop()
+
 certpath = os.path.join(THIS_DIR, "mycert.pem")
 
 #------------------------------------------------------------------------------
@@ -86,7 +95,7 @@ c.NotebookApp.ip = '0.0.0.0'
 #
 # Note: Cookie secrets should be kept private, do not share config files with
 # cookie_secret stored in plaintext (you can read the value from a file).
-c.NotebookApp.cookie_secret = wnbsecrets.cookie_secret
+# c.NotebookApp.cookie_secret = u''
 
 # The default URL to redirect to from `/`
 # c.NotebookApp.default_url = '/tree'
@@ -191,7 +200,7 @@ c.NotebookApp.open_browser = False
 #
 # The string should be of the form type:salt:hashed-password.
 try:
-    passwordHash = wnbsecrets.passwordHash
+    passwordHash = pwhash.passwordHash
 except:
     logging.exception("ERROR in loading passwordHash")
     # hash for 'defaultPassword'

@@ -14,8 +14,4 @@
 #
 # This is the hash for 'defaultPassword', unless modified.
 
-passwordHash = u'sha1:c758adf8ce8e:f5f7ef28d3c11b69f5d2802ca50188c79667bf1b'
-
-# Use the following command to generate a new cookie
-# makepasswd --minchars=55 --maxchars=60 --count=20
-cookie_secret = u'uAtsCyGSWMhwcrGgzDeM2mj8dbEWTMoPxjqiCzcdP1sDE2MWfiKci0w'
+passwordHash = u'sha1:a3e1bafeb867:5f76695253bd472ddeb71c86807778bc8ef8ea44'
