@@ -1,5 +1,12 @@
 # Configuration file for jupyter-notebook.
 
+import os
+import wnbsecrets
+
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.abspath(os.path.join(THIS_DIR, "../"))
+certpath = os.path.join(THIS_DIR, "mycert.pem")
+
 #------------------------------------------------------------------------------
 # Configurable configuration
 #------------------------------------------------------------------------------
@@ -64,7 +71,7 @@
 # c.NotebookApp.jinja_environment_options = traitlets.Undefined
 
 # The IP address the notebook server will listen on.
-# c.NotebookApp.ip = 'localhost'
+c.NotebookApp.ip = '0.0.0.0'
 
 # DEPRECATED use base_url
 # c.NotebookApp.base_project_url = '/'
@@ -79,13 +86,13 @@
 #
 # Note: Cookie secrets should be kept private, do not share config files with
 # cookie_secret stored in plaintext (you can read the value from a file).
-# c.NotebookApp.cookie_secret = ''
+c.NotebookApp.cookie_secret = wnbsecrets.cookie_secret
 
 # The default URL to redirect to from `/`
 # c.NotebookApp.default_url = '/tree'
 
 # The port the notebook server will listen on.
-# c.NotebookApp.port = 8888
+c.NotebookApp.port = 7143
 
 # The kernel spec manager class to use. Should be a subclass of
 # `jupyter_client.kernelspec.KernelSpecManager`.
@@ -99,7 +106,7 @@
 # Use '*' to allow any origin to access your server.
 #
 # Takes precedence over allow_origin_pat.
-# c.NotebookApp.allow_origin = ''
+c.NotebookApp.allow_origin = '*'
 
 # The notebook manager class to use.
 # c.NotebookApp.contents_manager_class = <class 'notebook.services.contents.filemanager.FileContentsManager'>
@@ -116,7 +123,7 @@
 # c.NotebookApp.allow_origin_pat = ''
 
 # The full path to an SSL/TLS certificate file.
-# c.NotebookApp.certfile = u''
+c.NotebookApp.certfile = certpath
 
 # The logout handler class to use.
 # c.NotebookApp.logout_handler_class = <class 'notebook.auth.logout.LogoutHandler'>
@@ -134,7 +141,7 @@
 # c.NotebookApp.tornado_settings = traitlets.Undefined
 
 # The directory to use for notebooks and kernels.
-# c.NotebookApp.notebook_dir = u''
+c.NotebookApp.notebook_dir = os.path.join(ROOT_DIR, "books/")
 
 # The kernel manager class to use.
 # c.NotebookApp.kernel_manager_class = <class 'notebook.services.kernels.kernelmanager.MappingKernelManager'>
@@ -159,7 +166,7 @@
 # connection, or for offline use of the notebook.
 #
 # When disabled, equations etc. will appear as their untransformed TeX source.
-# c.NotebookApp.enable_mathjax = True
+c.NotebookApp.enable_mathjax = True
 
 # Reraise exceptions encountered loading server extensions?
 # c.NotebookApp.reraise_server_extension_failures = False
@@ -174,7 +181,7 @@
 # platform dependent and determined by the python standard library `webbrowser`
 # module, unless it is overridden using the --browser (NotebookApp.browser)
 # configuration option.
-# c.NotebookApp.open_browser = True
+c.NotebookApp.open_browser = False
 
 # Hashed password to use for web authentication.
 #
@@ -183,7 +190,14 @@
 #   from notebook.auth import passwd; passwd()
 #
 # The string should be of the form type:salt:hashed-password.
-# c.NotebookApp.password = u''
+try:
+    passwordHash = wnbsecrets.passwordHash
+except:
+    logging.exception("ERROR in loading passwordHash")
+    # hash for 'defaultPassword'
+    passwordHash = u'sha1:975fe01686f5:c032658ec067ca6afeca34214d8df032176da841'
+
+c.NotebookApp.password = passwordHash
 
 # extra paths to look for Javascript notebook extensions
 # c.NotebookApp.extra_nbextensions_path = traitlets.Undefined
@@ -333,7 +347,7 @@
 #     to the contents of the file.
 
 # Username for the Session. Default is your system username.
-# c.Session.username = u'nagarajan'
+# c.Session.username = u'motleytech'
 
 # Threshold (in bytes) beyond which a buffer should be sent without copying.
 # c.Session.copy_threshold = 65536
